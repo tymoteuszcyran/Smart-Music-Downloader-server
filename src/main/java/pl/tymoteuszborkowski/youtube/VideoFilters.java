@@ -2,11 +2,15 @@ package pl.tymoteuszborkowski.youtube;
 
 import com.google.api.services.youtube.model.Video;
 
+import com.google.gson.Gson;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,7 +34,8 @@ public class VideoFilters {
 
 
     public List<Video> sortByLength(List<Video> videos) {
-        Map<String, Integer> durations = new HashMap<>();
+        Map<String, Integer> unsortedMap = new HashMap<>();
+        List<Video> sortedList = new ArrayList<>();
 
         for(Video video : videos){
             String duration = video.getContentDetails().getDuration();
@@ -38,20 +43,23 @@ public class VideoFilters {
             Period period = ISOPeriodFormat.standard().parsePeriod(duration);
             int seconds = period.getSeconds() + (period.getMinutes()*60);
 
-            durations.put(videoId, seconds);
+            unsortedMap.put(videoId, seconds);
         }
 
-        Map<String, Integer> sortedMap = this.sortByValue(durations);
+        Map<String, Integer> sortedMap = sortMapByValue(unsortedMap);
 
-        for(Integer value : sortedMap.values())
-            System.out.println(value);
-
-
-        return new LinkedList<>();
+        for(String sortedVideoId : sortedMap.keySet()){
+            for(Video video : videos){
+                if(video.getId().equals(sortedVideoId)){
+                    sortedList.add(video);
+                }
+            }
+        }
+        return sortedList;
     }
 
 
-    private void getUrls(List<Video> videos) throws MalformedURLException {
+    public void getUrls(List<Video> videos) throws MalformedURLException {
         URL url;
 
         for(Video video : videos){
@@ -62,14 +70,18 @@ public class VideoFilters {
         }
     }
 
-    private URL getURL(Video video) throws MalformedURLException{
+    public URL getURL(Video video) throws MalformedURLException{
         String videoId = video.getId();
 
+        System.out.println("VIDEO: " + YOUTUBE_URL_PREFIX + videoId);
         return new URL(YOUTUBE_URL_PREFIX + videoId);
     }
 
 
-    private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+
+
+
+    private <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
         return map.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())

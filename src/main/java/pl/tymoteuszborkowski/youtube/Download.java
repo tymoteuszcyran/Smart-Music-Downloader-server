@@ -1,5 +1,7 @@
 package pl.tymoteuszborkowski.youtube;
 
+import com.github.axet.vget.VGet;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -12,15 +14,15 @@ public class Download {
 
     public void downloadVideo(URL url){
 
-//        try {
-//            File file = createTempFile();
-//            VGet v = new VGet(url, file);
-//
-//            v.download();
-//
-//        } catch (RuntimeException | IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            File file = createTempFile();
+            VGet v = new VGet(url, new File("/home/tymek/Desktop/"));
+
+            v.download();
+
+        } catch (RuntimeException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
