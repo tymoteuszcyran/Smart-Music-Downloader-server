@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.glassfish.hk2:class-model:2.4.0-b34">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/class-model/2.4.0-b34/fdb9192396480cb5a828eb2f21f348600bc40758/class-model-2.4.0-b34.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/class-model/2.4.0-b34/8229fcfed608fc4c8159fdfc7eadbf5b2219cd94/class-model-2.4.0-b34-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

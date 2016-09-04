@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.glassfish.jersey.ext:jersey-spring3:2.23.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-spring3/2.23.1/76c5443c11a99d0102e732ad5b04fa840c1eb0d1/jersey-spring3-2.23.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-spring3/2.23.1/76b6b2abda8fa38c96ed2b1e445168bc0138a8c1/jersey-spring3-2.23.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
