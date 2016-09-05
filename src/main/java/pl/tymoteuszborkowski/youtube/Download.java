@@ -1,25 +1,27 @@
 package pl.tymoteuszborkowski.youtube;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.UUID;
 
 public class Download {
+    
+    private static final String CMD_DESTINATION = "/bin/bash";
+    private static final String CMD_RUN = "-c";
+    private static final String YOUTUBE_DL_EXEC = "youtube-dl";
+    private static final String EXTRACT_AUDIO = " --extract-audio";
+    private static final String AUDIO_FORMAT = " --audio-format mp3";
+    private static final String AUDIO_QUALITY = " --audio-quality 0 ";
 
-    private static final String MP4_EXTENSION = ".mp4";
-
-
-    public void downloadVideo(final String url) throws IOException {
-        String[] args = new String[] {
-                        "/bin/bash", // if windows change to cmd location
-                        "-c",
-                        "youtube-dl" +
-                        " --extract-audio" +
-                        " --audio-format mp3" +
-                        " --audio-quality 0 " +
-                        url};
+    public void downloadMp3(final String url) throws IOException {
+        String[] args = new String[]{
+                CMD_DESTINATION,
+                CMD_RUN,
+                YOUTUBE_DL_EXEC +
+                EXTRACT_AUDIO +
+                AUDIO_FORMAT +
+                AUDIO_QUALITY +
+                url};
 
         ProcessBuilder builder = new ProcessBuilder(args);
         builder.redirectErrorStream(true);
@@ -28,16 +30,10 @@ public class Download {
         String line;
         while (true) {
             line = r.readLine();
-            if (line == null) { break; }
+            if (line == null) {
+                break;
+            }
             System.out.println(line);
         }
-    }
-
-
-    private static File createTempFile() throws IOException {
-        File file = File.createTempFile(UUID.randomUUID().toString(), MP4_EXTENSION);
-        file.deleteOnExit();
-
-        return file;
     }
 }

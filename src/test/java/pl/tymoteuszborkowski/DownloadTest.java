@@ -13,7 +13,6 @@ import pl.tymoteuszborkowski.youtube.YouTubeService;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +37,7 @@ public class DownloadTest {
         }
 
         if(url != null){
-            download.downloadVideo(url);
+            download.downloadMp3(url);
         }
 
 
