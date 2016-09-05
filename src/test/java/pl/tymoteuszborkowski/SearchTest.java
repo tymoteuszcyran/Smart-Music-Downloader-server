@@ -16,6 +16,8 @@ public class SearchTest {
     @Test
     public void searchTest() throws IOException {
         SpotifyDuration spotifyDuration = new SpotifyDuration();
-        spotifyDuration.getSpotifyResponse("Muna", "Winterbreak");
+        String body = spotifyDuration.getSpotifyResponse("Muna", "Winterbreak");
+
+        spotifyDuration.findTrackDuration(body);
     }
 }

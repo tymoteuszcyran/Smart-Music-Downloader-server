@@ -2,15 +2,11 @@ package pl.tymoteuszborkowski.youtube;
 
 import com.google.api.services.youtube.model.Video;
 
-import com.google.gson.Gson;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,22 +55,9 @@ public class VideoFilters {
     }
 
 
-    public void getUrls(List<Video> videos) throws MalformedURLException {
-        URL url;
-
-        for(Video video : videos){
-           String videoId =  video.getId();
-            url = new URL(YOUTUBE_URL_PREFIX +videoId);
-
-            System.out.println(url.toString());
-        }
-    }
-
-    public URL getURL(Video video) throws MalformedURLException{
+    public String getURL(Video video) throws MalformedURLException{
         String videoId = video.getId();
-
-        System.out.println("VIDEO: " + YOUTUBE_URL_PREFIX + videoId);
-        return new URL(YOUTUBE_URL_PREFIX + videoId);
+        return YOUTUBE_URL_PREFIX + videoId;
     }
 
 
