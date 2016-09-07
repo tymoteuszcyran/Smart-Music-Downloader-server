@@ -1,0 +1,81 @@
+package pl.tymoteuszborkowski.controllers;
+
+import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
+import org.apache.catalina.WebResource;
+import org.glassfish.jersey.client.ClientResponse;
+import org.springframework.stereotype.Component;
+import pl.tymoteuszborkowski.model.MP3;
+import pl.tymoteuszborkowski.spotify.SpotifyDuration;
+import pl.tymoteuszborkowski.youtube.Download;
+import pl.tymoteuszborkowski.youtube.VideoFilters;
+import pl.tymoteuszborkowski.youtube.YouTubeFactory;
+import pl.tymoteuszborkowski.youtube.YouTubeService;
+
+import javax.ws.rs.*;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.List;
+import java.util.Map;
+
+@Component
+@Path("api")
+public class Endpoint {
+
+    private static final String MP3_EXTENSION = ".mp3";
+
+    private final YouTubeFactory factory = new YouTubeFactory();
+    private final YouTubeService service = factory.createYouTubeService();
+    private final VideoFilters filters = new VideoFilters();
+    private final Download download = new Download();
+    private final SpotifyDuration spotifyDuration = new SpotifyDuration();
+
+    private String title;
+    private String artist;
+
+
+
+
+    @GET
+    @Path("enter")
+    public Response getInfo(@QueryParam("title") String title,
+                            @QueryParam("artist") String artist){
+
+        this.title = title;
+        this.artist = artist;
+        
+        return Response.ok().status(200).build();
+    }
+
+    @Path("/mp3")
+    @GET
+    @Produces("audio/mpeg")
+    public Response getMp3(){
+        List<SearchResult> resultList = service.searchVideos(artist, title);
+        List<Video> allVideos = service.getVideos(resultList);
+        List<Video> sortedByQualityList = filters.sortByQuality(allVideos);
+        Map<Long, Video> mapWithDuration = filters.sortByLength(sortedByQualityList);
+        String bodyJSON = spotifyDuration.getSpotifyResponse(artist, title);
+        long originalTrackDuration = spotifyDuration.findTrackDuration(bodyJSON);
+        Video theBestVideo = filters.getTheBestVideo(mapWithDuration, originalTrackDuration);
+        String url = download.getURL(theBestVideo);
+        download.downloadMp3(url);
+        String fileDirectory = download.fileDirectory(theBestVideo);
+
+
+        StreamingOutput stream = output -> {
+            java.nio.file.Path path = Paths.get(fileDirectory);
+            Files.copy(path, output);
+            output.flush();
+        };
+
+
+        return Response.ok().status(200).entity(stream).build();
+    }
+
+
+
+
+}

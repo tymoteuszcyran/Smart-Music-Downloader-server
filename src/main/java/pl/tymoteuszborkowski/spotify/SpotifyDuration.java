@@ -17,18 +17,25 @@ public class SpotifyDuration {
     private static final String DURATION_INDEX = "duration_ms";
     private static final String COMMA = ",";
 
-    public String getSpotifyResponse(String artist, String title) throws IOException {
+    public String getSpotifyResponse(String artist, String title){
         artist = artist.replace(" ", SPACE);
         title = title.replace(" ", SPACE);
         String query = SPOTIFY_GET + artist + "%20" + title + TRACK_TYPE + RESPONSE_LIMIT + DURATION_KEY;
 
-        URL url = new URL(query);
-        URLConnection con = url.openConnection();
-        InputStream in = con.getInputStream();
-        String encoding = con.getContentEncoding();
-        encoding = encoding == null ? "UTF-8" : encoding;
+        try{
+            URL url = new URL(query);
+            URLConnection con = url.openConnection();
+            InputStream in = con.getInputStream();
+            String encoding = con.getContentEncoding();
+            encoding = encoding == null ? "UTF-8" : encoding;
 
-        return IOUtils.toString(in, encoding);
+            return IOUtils.toString(in, encoding);
+        }catch (IOException e){
+            e.printStackTrace();
+            return "Empty body";
+        }
+
+
     }
 
     public long findTrackDuration(final String body) {

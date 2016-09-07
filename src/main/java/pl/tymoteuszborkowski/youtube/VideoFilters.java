@@ -11,70 +11,68 @@ import java.util.stream.Collectors;
 
 public class VideoFilters {
 
-    private static final String YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v=";
     private static final String HD_DEFINITION = "hd";
 
 
-    public List<Video> getBestQualityVideos(List<Video> videos){
+    public List<Video> sortByQuality(List<Video> videos) {
         List<Video> hdVideos = new ArrayList<>();
-        for(Video video : videos){
+        List<Video> normalVideos = new ArrayList<>();
 
-            String definition = video.getContentDetails().getDefinition();
-            if(definition.equals(HD_DEFINITION))
-                hdVideos.add(video);
-        }
+        System.out.println("LENGTH BEFORE: " + videos.size());
+        videos.stream()
+                .filter(video -> video.getContentDetails().getDefinition().equals(HD_DEFINITION))
+                .forEach(video -> {
+                    hdVideos.add(video);
+                    videos.remove(video);
+                });
+
+        System.out.println("LENGTH AFTER: " + videos.size());
+
+        hdVideos.addAll(videos);
+
+        System.out.println("AGAIN : " + hdVideos.size());
 
         return hdVideos;
     }
 
 
-    public List<Video> sortByLength(List<Video> videos) {
-        Map<String, Integer> unsortedMap = new HashMap<>();
-        List<Video> sortedList = new ArrayList<>();
+    public Map<Long, Video> sortByLength(List<Video> videos) {
+        Map<Long, Video> unsortedMap = new HashMap<>();
+        Map<Long, Video> sortedMap = new LinkedHashMap<>();
 
-        for(Video video : videos){
+        for (Video video : videos) {
             String duration = video.getContentDetails().getDuration();
-            String videoId = video.getId();
             Period period = ISOPeriodFormat.standard().parsePeriod(duration);
-            int seconds = period.getSeconds() + (period.getMinutes()*60);
+            long seconds = period.getSeconds() + (period.getMinutes() * 60);
 
-            unsortedMap.put(videoId, seconds);
+            unsortedMap.put(seconds, video);
         }
 
-        Map<String, Integer> sortedMap = sortMapByValue(unsortedMap);
+        SortedSet<Long> keys = new TreeSet<>(unsortedMap.keySet());
+        for (Long key : keys) {
+            Video video = unsortedMap.get(key);
+            sortedMap.put(key, video);
+        }
 
-        for(String sortedVideoId : sortedMap.keySet()){
-            for(Video video : videos){
-                if(video.getId().equals(sortedVideoId)){
-                    sortedList.add(video);
-                }
+        return sortedMap;
+    }
+
+
+    public Video getTheBestVideo(Map<Long, Video> mapWithDurations, long originalTrackDuration) {
+        final Set<Long> durationsSet = mapWithDurations.keySet();
+        final List<Long> durations = new ArrayList<>(durationsSet);
+
+        long bestKey = 0;
+        long distance = Math.abs(durations.get(0) - originalTrackDuration);
+        for (int i = 1; i < durations.size(); i++) {
+            long cdistance = Math.abs(durations.get(i) - originalTrackDuration);
+            if (cdistance < distance) {
+                bestKey = durations.get(i);
             }
         }
-        return sortedList;
+
+        return mapWithDurations.get(bestKey);
     }
-
-
-    public String getURL(Video video) throws MalformedURLException{
-        String videoId = video.getId();
-        return YOUTUBE_URL_PREFIX + videoId;
-    }
-
-
-
-
-
-    private <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
-        return map.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
-    }
-
 
 
 

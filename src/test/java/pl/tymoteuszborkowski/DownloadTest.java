@@ -11,6 +11,7 @@ import pl.tymoteuszborkowski.youtube.VideoFilters;
 import pl.tymoteuszborkowski.youtube.YouTubeFactory;
 import pl.tymoteuszborkowski.youtube.YouTubeService;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -26,19 +27,12 @@ public class DownloadTest {
         VideoFilters filters = new VideoFilters();
         Download download = new Download();
 
-        List<SearchResult> resultList = service.searchVideos("Oddałbym");
+        List<SearchResult> resultList = service.searchVideos("Slums Attack", "Oddałbym");
         List<Video> videos = service.getVideos(resultList);
 
-        String url = null;
-        try {
-            url = filters.getURL(videos.get(0));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
 
-        if(url != null){
-            download.downloadMp3(url);
-        }
+       download.fileDirectory(videos.get(0));
+
 
 
     }

@@ -25,8 +25,8 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-jersey')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jersey', version: '1.2.0.RELEASE'
 	compile 'com.google.apis:google-api-services-youtube:v3-rev178-1.22.0'
 	compile group: 'joda-time', name: 'joda-time', version: '2.9.4'
 	compile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4-rc-2'

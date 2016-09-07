@@ -25,8 +25,10 @@ public class YouTubeService {
     }
 
 
-    public List<SearchResult> searchVideos(String query){
+    public List<SearchResult> searchVideos(String artist, String title){
         List<SearchResult> responseList = new ArrayList<>();
+        String query = artist + " " + title;
+
         try {
             YouTube.Search.List search = youtube.search().list("id, snippet");
             search.setKey(API_KEY);
