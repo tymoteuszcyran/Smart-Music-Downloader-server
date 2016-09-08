@@ -2,6 +2,7 @@ package pl.tymoteuszborkowski;
 
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,9 +12,15 @@ import pl.tymoteuszborkowski.youtube.VideoFilters;
 import pl.tymoteuszborkowski.youtube.YouTubeFactory;
 import pl.tymoteuszborkowski.youtube.YouTubeService;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -22,16 +29,18 @@ public class DownloadTest {
 
     @Test
     public void downloadVideoTest() throws IOException, InterruptedException {
-        YouTubeFactory factory = new YouTubeFactory();
-        YouTubeService service = factory.createYouTubeService();
-        VideoFilters filters = new VideoFilters();
-        Download download = new Download();
+        final Client client = ClientBuilder.newClient();
+        final WebTarget target = client.target("http://10.0.2.2:8080/api/mp3");
+        final UriBuilder uriBuilder = target.getUriBuilder();
 
-        List<SearchResult> resultList = service.searchVideos("Slums Attack", "Oddałbym");
-        List<Video> videos = service.getVideos(resultList);
+        uriBuilder.queryParam("title", "Muna");
+        uriBuilder.queryParam("artist", "Winterbreak");
+        final URI uri = uriBuilder.build();
+        System.out.println(uri);
+        final WebTarget webTarget = client.target(uri);
+        Response response = webTarget.request().get();
 
-
-       download.fileDirectory(videos.get(0));
+        System.out.println(response.getStatus());
 
 
 

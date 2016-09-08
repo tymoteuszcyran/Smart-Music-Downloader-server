@@ -19,16 +19,18 @@ public class VideoFilters {
         List<Video> normalVideos = new ArrayList<>();
 
         System.out.println("LENGTH BEFORE: " + videos.size());
-        videos.stream()
-                .filter(video -> video.getContentDetails().getDefinition().equals(HD_DEFINITION))
-                .forEach(video -> {
-                    hdVideos.add(video);
-                    videos.remove(video);
-                });
+
+        for(Video video : videos){
+            String definition = video.getContentDetails().getDefinition();
+            if(definition.equals(HD_DEFINITION)){
+                hdVideos.add(video);
+            }else
+                normalVideos.add(video);
+        }
 
         System.out.println("LENGTH AFTER: " + videos.size());
 
-        hdVideos.addAll(videos);
+        hdVideos.addAll(normalVideos);
 
         System.out.println("AGAIN : " + hdVideos.size());
 

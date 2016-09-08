@@ -22,7 +22,7 @@ public class VideoFiltersTest {
 		YouTubeService service = factory.createYouTubeService();
 		VideoFilters filters = new VideoFilters();
 
-		List<SearchResult> resultList = service.searchVideos("Oddałbym");
+		List<SearchResult> resultList = service.searchVideos("Oddałbym", "Slums Attack");
 		List<Video> videos = service.getVideos(resultList);
 
 		filters.sortByLength(videos);

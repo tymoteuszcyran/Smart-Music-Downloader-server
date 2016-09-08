@@ -56,13 +56,11 @@ public class Download {
         if (files != null) {
             for (File file : files) {
                 if (file.getName().contains(filename)) {
-                    path = file.getAbsolutePath();
+                    path = file.getPath();
                     break;
                 }
             }
         }
-
-        System.out.println("ABSOLUTE PATH " + path);
 
         return path;
     }

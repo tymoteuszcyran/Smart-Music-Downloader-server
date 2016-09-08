@@ -3,6 +3,7 @@ package pl.tymoteuszborkowski.controllers;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import org.apache.catalina.WebResource;
+import org.apache.commons.io.FilenameUtils;
 import org.glassfish.jersey.client.ClientResponse;
 import org.springframework.stereotype.Component;
 import pl.tymoteuszborkowski.model.MP3;
@@ -32,27 +33,11 @@ public class Endpoint {
     private final Download download = new Download();
     private final SpotifyDuration spotifyDuration = new SpotifyDuration();
 
-    private String title;
-    private String artist;
-
-
-
-
-    @GET
-    @Path("enter")
-    public Response getInfo(@QueryParam("title") String title,
-                            @QueryParam("artist") String artist){
-
-        this.title = title;
-        this.artist = artist;
-        
-        return Response.ok().status(200).build();
-    }
-
-    @Path("/mp3")
+    @Path("mp3")
     @GET
     @Produces("audio/mpeg")
-    public Response getMp3(){
+    public Response getMp3(@QueryParam("title") String title,
+                           @QueryParam("artist") String artist) {
         List<SearchResult> resultList = service.searchVideos(artist, title);
         List<Video> allVideos = service.getVideos(resultList);
         List<Video> sortedByQualityList = filters.sortByQuality(allVideos);
@@ -71,11 +56,13 @@ public class Endpoint {
             output.flush();
         };
 
-
-        return Response.ok().status(200).entity(stream).build();
+        return Response
+                .ok()
+                .status(200)
+                .header("filename", FilenameUtils.getName(fileDirectory))
+                .entity(stream)
+                .build();
     }
-
-
 
 
 }
