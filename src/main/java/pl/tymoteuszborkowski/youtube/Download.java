@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 
 public class Download {
 
@@ -23,10 +22,10 @@ public class Download {
                 CMD_DESTINATION,
                 CMD_RUN,
                 YOUTUBE_DL_EXEC +
-                        EXTRACT_AUDIO +
-                        AUDIO_FORMAT +
-                        AUDIO_QUALITY +
-                        url};
+                EXTRACT_AUDIO +
+                AUDIO_FORMAT +
+                AUDIO_QUALITY +
+                url};
 
         try {
             ProcessBuilder builder = new ProcessBuilder(args);
@@ -39,7 +38,6 @@ public class Download {
                 if (line == null) {
                     break;
                 }
-                System.out.println(line);
             }
         } catch (IOException e) {
             e.printStackTrace();

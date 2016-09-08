@@ -25,8 +25,6 @@ import java.util.Map;
 @Path("api")
 public class Endpoint {
 
-    private static final String MP3_EXTENSION = ".mp3";
-
     private final YouTubeFactory factory = new YouTubeFactory();
     private final YouTubeService service = factory.createYouTubeService();
     private final VideoFilters filters = new VideoFilters();

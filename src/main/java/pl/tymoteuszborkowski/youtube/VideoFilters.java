@@ -5,9 +5,7 @@ import com.google.api.services.youtube.model.Video;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 
-import java.net.MalformedURLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class VideoFilters {
 
@@ -18,8 +16,6 @@ public class VideoFilters {
         List<Video> hdVideos = new ArrayList<>();
         List<Video> normalVideos = new ArrayList<>();
 
-        System.out.println("LENGTH BEFORE: " + videos.size());
-
         for(Video video : videos){
             String definition = video.getContentDetails().getDefinition();
             if(definition.equals(HD_DEFINITION)){
@@ -28,13 +24,8 @@ public class VideoFilters {
                 normalVideos.add(video);
         }
 
-        System.out.println("LENGTH AFTER: " + videos.size());
-
-        hdVideos.addAll(normalVideos);
-
-        System.out.println("AGAIN : " + hdVideos.size());
-
-        return hdVideos;
+            hdVideos.addAll(normalVideos);
+            return hdVideos;
     }
 
 
@@ -64,16 +55,28 @@ public class VideoFilters {
         final Set<Long> durationsSet = mapWithDurations.keySet();
         final List<Long> durations = new ArrayList<>(durationsSet);
 
+        Long bestHdKey = null;
         long bestKey = 0;
         long distance = Math.abs(durations.get(0) - originalTrackDuration);
+
         for (int i = 1; i < durations.size(); i++) {
             long cdistance = Math.abs(durations.get(i) - originalTrackDuration);
             if (cdistance < distance) {
                 bestKey = durations.get(i);
+
+                String actualVideoDefinition = mapWithDurations.get(bestKey).getContentDetails().getDefinition();
+                if(actualVideoDefinition.equals(HD_DEFINITION)){
+                    bestHdKey = durations.get(i);
+                }
+
             }
         }
 
-        return mapWithDurations.get(bestKey);
+        if(bestHdKey != null)
+            return mapWithDurations.get(bestHdKey);
+        else
+            return mapWithDurations.get(bestKey);
+
     }
 
 
