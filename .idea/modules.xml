@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SmartMusicDownloader.iml" filepath="$PROJECT_DIR$/.idea/modules/SmartMusicDownloader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SmartMusicDownloader_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SmartMusicDownloader_main.iml" group="SmartMusicDownloader" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SmartMusicDownloader_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SmartMusicDownloader_test.iml" group="SmartMusicDownloader" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server_main.iml" group="Smart-Music-Downloader-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart-Music-Downloader-server_test.iml" group="Smart-Music-Downloader-server" />
     </modules>
   </component>
 </project>
