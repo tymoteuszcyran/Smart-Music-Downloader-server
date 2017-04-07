@@ -28,7 +28,7 @@ public class YouTubeService {
     }
 
 
-    public List<SearchResult> searchVideos(String query){
+    public List<Video> searchVideos(String query){
         List<SearchResult> responseList = new ArrayList<>();
         try {
             YouTube.Search.List search = youTube.search().list("id, snippet");
@@ -44,30 +44,34 @@ public class YouTubeService {
             e.printStackTrace();
         }
 
-        return responseList;
+        return parseResultsToVideos(responseList);
     }
 
 
-    public List<Video> getVideos(List<SearchResult> resultList){
+    private List<Video> parseResultsToVideos(List<SearchResult> resultList){
         List<Video> videos = new ArrayList<>();
-        List<String> videosIds = new ArrayList<>();
 
         try {
-            videosIds.addAll(resultList.stream().map(result -> result.getId().getVideoId()).collect(Collectors.toList()));
+            List<String> videoIds = resultList.stream()
+                    .map(result -> result.getId().getVideoId())
+                    .collect(Collectors.toList());
 
             Joiner stringJoiner = Joiner.on(',');
-            String videoId = stringJoiner.join(videosIds);
+            String videoId = stringJoiner.join(videoIds);
 
-            YouTube.Videos.List listVideosRequest = youTube.videos().list("snippet, contentDetails").setId(videoId);
+            YouTube.Videos.List listVideosRequest = youTube.videos()
+                    .list("snippet, contentDetails")
+                    .setId(videoId);
+
             listVideosRequest.setKey(API_KEY);
             VideoListResponse listResponse = listVideosRequest.execute();
 
             videos = listResponse.getItems();
 
         } catch (IOException e) {
-            // TODO: 31.08.2016 implement friendly message
             e.printStackTrace();
         }
+
         return videos;
 
     }

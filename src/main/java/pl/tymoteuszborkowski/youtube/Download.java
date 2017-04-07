@@ -17,7 +17,7 @@ public class Download {
     private static final String AUDIO_QUALITY = " --audio-quality 0 ";
     private static final String YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v=";
 
-    public void downloadMp3(final String url) {
+    public void downloadMp3(String url) {
         String[] args = new String[]{
                 CMD_DESTINATION,
                 CMD_RUN,

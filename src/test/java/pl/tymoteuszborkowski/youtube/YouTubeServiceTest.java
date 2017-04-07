@@ -1,6 +1,7 @@
 package pl.tymoteuszborkowski.youtube;
 
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,10 +15,9 @@ public class YouTubeServiceTest {
     public void searchingVideoTest(){
         YouTubeService service = new YouTubeService();
 
-        List<SearchResult> searchResults = service.searchVideos("Adele Water under the bridge");
-
-        for(SearchResult searchResult : searchResults){
-            System.out.println(searchResult.getSnippet().getTitle());
+        List<Video> videos = service.searchVideos("Adele under the bridge");
+        for (Video video : videos) {
+            System.out.println(video.getContentDetails().getDuration());
         }
     }
 
