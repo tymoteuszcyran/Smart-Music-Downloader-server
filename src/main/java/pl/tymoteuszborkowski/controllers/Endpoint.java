@@ -2,7 +2,6 @@ package pl.tymoteuszborkowski.controllers;
 
 import org.springframework.stereotype.Component;
 import pl.tymoteuszborkowski.spotify.SpotifyService;
-import pl.tymoteuszborkowski.youtube.Download;
 import pl.tymoteuszborkowski.youtube.VideoFilters;
 import pl.tymoteuszborkowski.youtube.YouTubeService;
 
@@ -15,7 +14,6 @@ public class Endpoint {
 
     private final YouTubeService service = new YouTubeService();
     private final VideoFilters filters = new VideoFilters();
-    private final Download download = new Download();
     private final SpotifyService spotifyDuration = new SpotifyService();
 
     @Path("mp3")

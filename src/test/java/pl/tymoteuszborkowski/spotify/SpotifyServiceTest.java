@@ -1,4 +1,4 @@
-package pl.tymoteuszborkowski.youtube;
+package pl.tymoteuszborkowski.spotify;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
