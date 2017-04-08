@@ -11,7 +11,8 @@ public class SpotifyServiceTest {
     @Test
     public void spotifyResponseTest(){
         SpotifyService spotifyService = new SpotifyService();
-        spotifyService.getSpotifyResponse("Adele", "Under the bridge");
+        Long duration = spotifyService.searchForTrackDuration("Nullo", "Nie mogę tak żyć");
+        System.out.println(duration);
 
     }
 
