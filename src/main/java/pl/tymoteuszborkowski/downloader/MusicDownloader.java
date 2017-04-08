@@ -13,7 +13,7 @@ public class MusicDownloader {
     private static final Logger log = Logger.getLogger(MusicDownloader.class);
     private static final String CMD_DESTINATION = "/bin/bash";
     private static final String CMD_RUN = "-c";
-    private static final String YOUTUBE_DL_FOLDER = "cd src/main/resources/youtube-dl && ";
+    private static final String YOUTUBE_DL_FOLDER = "cd thirdparty/youtube-dl && ";
     private static final String YOUTUBE_DL_EXEC = "python youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 ";
     private static final String YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v=";
 
